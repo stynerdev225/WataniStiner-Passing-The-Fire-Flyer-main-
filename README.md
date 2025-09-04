@@ -29,12 +29,14 @@ This project showcases the story and invitation of Watani Stiner, who escaped fr
 ## Getting Started
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/stynerdev225/WataniStiner-Passing-The-Fire-Flyer-main-.git
 cd WataniStiner-Passing-The-Fire-Flyer-main-
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 # or
@@ -42,6 +44,7 @@ pnpm install
 ```
 
 3. Run the development server:
+
 ```bash
 npm run dev
 # or
@@ -53,10 +56,12 @@ pnpm dev
 ## Contact Information
 
 **Watani Stiner**
-- Phone: (415) 336-7605
-- Email: watani.stiner@gmail.com
+
+- Phone: Coming Soon
+- Email: Coming Soon
 
 **Canticle Farm**
+
 - Phone: (510) 679-3097
 - Email: canticlefarmers@gmail.com
 - Address: 1969 Harrington Avenue, Oakland, CA
@@ -64,6 +69,7 @@ pnpm dev
 ## Support
 
 This project operates within the gift economy model:
+
 - **Venmo**: @CanticleFarm
 - **PayPal**: canticlefarmers@gmail.com
 
@@ -73,4 +79,4 @@ This project is created with love and intention for community healing and educat
 
 ---
 
-*"Our young people are not only our future. They are our present."* - Watani Stiner
+_"Our young people are not only our future. They are our present."_ - Watani Stiner
