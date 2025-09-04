@@ -1,0 +1,789 @@
+"use client";
+
+import { Cinzel } from 'next/font/google';
+import { Cormorant_Garamond } from 'next/font/google';
+import { Dancing_Script } from 'next/font/google';
+import EditableText from '@/components/editors/EditableText';
+import SaveButton from '@/components/ui/SaveButton';
+
+// Initialize the fonts
+const cinzel = Cinzel({
+  weight: ['600'],
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const cormorantGaramond = Cormorant_Garamond({
+  weight: ['400', '500'],
+  subsets: ['latin'],
+  display: 'swap',
+  style: ['normal', 'italic']
+});
+
+const dancingScript = Dancing_Script({
+  weight: ['700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+export default function PassingTheFireFlyer() {
+  return (
+    <div className="min-h-screen p-4 md:p-8 relative" style={{ backgroundColor: "#FAF6EA" }}>
+      <svg className="fixed inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0, minHeight: '100vh', height: '100%', width: '100%' }}>
+        <defs>
+          {/* Wavy treaty text effect */}
+          <filter id="wavy-text-effect" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence baseFrequency="0.02 0.1" numOctaves="3" result="turbulence" />
+            <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="8" />
+          </filter>
+
+          {/* Enhanced African geometric pattern */}
+          <pattern id="africanPattern" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+            <g opacity="0.04" fill="#533023">
+              <circle cx="30" cy="30" r="3" />
+              <circle cx="90" cy="30" r="3" />
+              <circle cx="30" cy="90" r="3" />
+              <circle cx="90" cy="90" r="3" />
+              <path d="M60,15 L70,35 L50,35 Z" />
+              <path d="M60,105 L50,85 L70,85 Z" />
+              <path d="M15,60 L35,50 L35,70 Z" />
+              <path d="M105,60 L85,70 L85,50 Z" />
+              <circle cx="60" cy="60" r="8" fill="none" stroke="#533023" strokeWidth="1" />
+              <path d="M60,52 L60,68 M52,60 L68,60" stroke="#533023" strokeWidth="1" />
+            </g>
+          </pattern>
+
+          {/* Paper texture pattern */}
+          <pattern id="paperTexture" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+            <g opacity="0.02" fill="#8B4513">
+              <circle cx="50" cy="50" r="0.5" />
+              <circle cx="150" cy="75" r="0.5" />
+              <circle cx="75" cy="150" r="0.5" />
+              <circle cx="125" cy="25" r="0.5" />
+              <circle cx="25" cy="125" r="0.5" />
+              <circle cx="175" cy="175" r="0.5" />
+            </g>
+          </pattern>
+
+          {/* Enhanced Adinkra pattern */}
+          <pattern id="adinkraPattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+            <g opacity="0.05" fill="#6B4226" stroke="#6B4226" strokeWidth="0.8">
+              <circle cx="50" cy="50" r="20" fill="none" />
+              <path d="M50,30 L50,70 M30,50 L70,50" />
+              <circle cx="50" cy="50" r="4" />
+              <path d="M35,35 L65,35 L65,65 L35,65 Z" fill="none" />
+            </g>
+          </pattern>
+
+          {/* Golden accent pattern */}
+          <pattern id="goldenAccent" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+            <g opacity="0.03" fill="#DAA520">
+              <path d="M30,10 L35,25 L50,20 L40,35 L55,40 L40,45 L50,60 L35,55 L30,70 L25,55 L10,60 L20,45 L5,40 L20,35 L10,20 L25,25 Z" />
+            </g>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#africanPattern)" />
+        <rect width="100%" height="100%" fill="url(#paperTexture)" />
+      </svg>
+
+      <div
+        className="max-w-7xl mx-auto rounded-2xl shadow-2xl overflow-hidden relative"
+        style={{
+          backgroundColor: "#FAF6EA",
+          zIndex: 1,
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(139, 69, 19, 0.1)",
+        }}
+      >
+        <div
+          className="text-white p-8 md:p-12 relative overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, #1a4d14 0%, #2d5016 25%, #3d6b1f 50%, #4a7c59 75%, #5a8c69 100%)",
+            boxShadow: "inset 0 -2px 4px rgba(0,0,0,0.1)",
+            minHeight: "600px",
+          }}
+        >
+          <div
+            className="absolute inset-0 flex items-center justify-center opacity-25"
+            style={{ top: "0px", bottom: "0px", left: "0px", right: "0px" }}
+          >
+            <img
+              src="https://pub-b36625a09e404435935ae0e838f9c35d.r2.dev/passingthefire-banner.png"
+              alt="Elder passing torch to young person with historical civil rights background"
+              className="w-full h-full object-cover"
+              style={{
+                filter: "sepia(20%) contrast(1.2) brightness(1.3)",
+                objectPosition: "center center",
+              }}
+            />
+          </div>
+
+          {/* Enhanced decorative elements */}
+          <div className="absolute top-4 left-4 opacity-25">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+              <path
+                d="M40,8 L48,28 L68,20 L56,40 L76,48 L56,56 L68,76 L48,68 L40,88 L32,68 L12,76 L24,56 L4,48 L24,40 L10,20 L25,25 Z"
+                fill="currentColor"
+                opacity="0.6"
+              />
+              <circle cx="40" cy="40" r="12" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.8" />
+            </svg>
+          </div>
+          <div className="absolute top-4 right-4 opacity-25">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+              <circle cx="40" cy="40" r="30" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.6" />
+              <path d="M40,15 L40,65 M15,40 L65,40" stroke="currentColor" strokeWidth="3" opacity="0.8" />
+              <circle cx="40" cy="40" r="10" fill="currentColor" opacity="0.7" />
+            </svg>
+          </div>
+
+          {/* Decorative border pattern */}
+          <div
+            className="absolute top-0 left-0 right-0 h-1 opacity-40"
+            style={{
+              background:
+                "repeating-linear-gradient(90deg, #DAA520 0px, #DAA520 8px, transparent 8px, transparent 16px)",
+            }}
+          ></div>
+          <div
+            className="absolute bottom-0 left-0 right-0 h-1 opacity-40"
+            style={{
+              background:
+                "repeating-linear-gradient(90deg, #DAA520 0px, #DAA520 8px, transparent 8px, transparent 16px)",
+            }}
+          ></div>
+
+          <div className="text-center space-y-12 relative z-10">
+            <div className="mb-8">
+              {/* Title with dramatic 3D effect and golden glow - UPDATED SPACING */}
+              <div className="relative py-4" style={{ letterSpacing: "0.25em !important" }}>
+                <EditableText
+                  contentKey="main-title"
+                  defaultContent="PASSING THE FIRE"
+                  as="h1"
+                  className={`${cinzel.className} text-5xl md:text-8xl font-bold leading-none relative`}
+                  style={{
+                    letterSpacing: "0.25em !important",
+                    fontWeight: "700",
+                    textTransform: "uppercase" as const,
+                    // Simple, reliable golden border
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "4px #DAA520"
+                  }}
+                  allowFormatting={false}
+                  disabled={true}
+                />
+                {/* Adding the exact underline element from the inspector */}
+                <div
+                  className="absolute left-1/2 -bottom-4 transform -translate-x-1/2 w-40 h-1"
+                  style={{
+                    background: "linear-gradient(90deg, #DAA520 0%, #fff 100%)",
+                    borderRadius: "2px",
+                    opacity: 0.7
+                  }}
+                ></div>
+              </div>
+            </div>
+
+            {/* Decorative star divider matching image */}
+            <div className="flex items-center justify-center space-x-4 mb-12">
+              <div className="w-24 h-0.5 bg-gradient-to-r from-transparent to-amber-300"></div>
+              <div className="relative">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="#DAA520">
+                  <path d="M20,7 L22.5,15 L30,12 L25,20 L35,25 L25,30 L30,38 L22.5,35 L20,43 L17.5,35 L10,38 L15,30 L5,25 L15,20 L10,12 L17.5,15 Z" />
+                </svg>
+                <div className="absolute inset-0 rounded-full" style={{
+                  background: "radial-gradient(circle, rgba(255,215,0,0.3) 0%, rgba(255,215,0,0) 70%)"
+                }}></div>
+              </div>
+              <div className="w-24 h-0.5 bg-gradient-to-l from-transparent to-amber-300"></div>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <EditableText
+                contentKey="subtitle"
+                defaultContent="FROM MEMORY TO MOVEMENT"
+                as="h2"
+                className="text-3xl md:text-4xl font-bold text-amber-200 uppercase relative"
+                style={{
+                  letterSpacing: "0.15em",
+                  color: "#F4CD6C",
+                  fontWeight: "700",
+                  textShadow: "0 2px 10px rgba(244,205,108,0.3)",
+                  marginBottom: "1.5em",
+                  maxWidth: "90%",
+                  margin: "0 auto"
+                }}
+                allowFormatting={false}
+                disabled={true}
+              />
+              <div className="h-4"></div> {/* Spacing */}
+            </div>
+
+            <EditableText
+              contentKey="sacred-invitation"
+              defaultContent="Karibuni, vijana wa ukweli (Welcome, young truth-seekers).<br /><br />Young truth-seekers, this circle is for you. We'll sit with story, courage, and care—centering Black youth and welcoming all. Bring your questions and your whole self. We pass the flame together. Aṣẹ. ✨🔥"
+              as="p"
+              className={`${cormorantGaramond.className} text-2xl md:text-3xl lg:text-4xl italic max-w-5xl mx-auto leading-relaxed pt-4 text-[#DBEAFE]`}
+              style={{
+                textShadow: "1px 1px 4px rgba(0,0,0,0.5)",
+                fontStyle: "italic",
+                letterSpacing: "0.03em",
+                fontWeight: "600", /* Increased from 400 to 600 for thicker text */
+              }}
+              allowFormatting={false}
+              disabled={true}
+            />
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex flex-col lg:flex-row">
+          {/* Left Side - Photo */}
+          <div className="relative lg:flex-[7] h-[1077px] lg:h-[1117px] flex items-center justify-center">
+            <img
+              src="https://pub-6a385ee83a6947c692a6956223d76abf.r2.dev/Daddy.png"
+              alt="Watani Stiner in traditional African attire"
+              className="w-auto h-auto object-contain lg:object-cover max-w-full max-h-full"
+              style={{
+                objectPosition: "center center",
+                minHeight: "270px",
+                height: "100%"
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+              <div className="flex flex-col items-center justify-center py-2">
+                <EditableText
+                  contentKey="quote-text"
+                  defaultContent="OUR YOUNG PEOPLE ARE NOT ONLY OUR FUTURE.<br /><span style='color: #FFE55C; font-weight: 700; font-size: 1.15em; letter-spacing: 0.08em; text-shadow: 2px 2px 6px rgba(0,0,0,0.6)'>THEY ARE OUR PRESENT.</span>"
+                  className={`${cormorantGaramond.className} text-white text-2xl md:text-3xl font-bold italic text-center leading-tight px-2`}
+                  style={{
+                    textShadow: "2px 2px 6px rgba(0,0,0,0.7), 0 0 15px rgba(255,255,255,0.1)",
+                    letterSpacing: "0.05em",
+                    fontStyle: "italic",
+                    marginBottom: "0.25em",
+                    color: "#FFFACD",
+                    fontWeight: "600",
+                  }}
+                  allowFormatting={true}
+                  disabled={true}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="p-2 md:p-4 space-y-4 relative lg:flex-[5] h-[1077px] lg:h-[1117px] overflow-hidden" style={{
+            backgroundColor: "#F5F1E5",
+            boxShadow: "inset 0 0 20px rgba(42,80,22,0.05)"
+          }}>
+            <div
+              className="absolute inset-0 opacity-15"
+              style={{
+                backgroundImage:
+                  'url(\'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><g opacity="0.08" fill="%23533023"><circle cx="60" cy="60" r="20" fill="none" stroke="%23533023" strokeWidth="1.5"/><path d="M60,40 L60,80 M40,60 L80,60" stroke="%23533023" strokeWidth="1.5"/><circle cx="60" cy="60" r="4"/><path d="M45,45 L75,45 L75,75 L45,75 Z" fill="none" stroke="%23533023" strokeWidth="1"/></g></svg>\')',
+              }}
+            ></div>
+
+            <div className="absolute top-12 left-12 opacity-15">
+              <svg width="40" height="40" viewBox="0 0 50 50" fill="#533023">
+                <path d="M25,8 L30,20 L42,15 L35,27 L47,32 L35,37 L42,49 L30,44 L25,56 L20,44 L8,49 L15,37 L3,32 L15,27 L8,15 L20,20 Z" />
+                <circle cx="25" cy="25" r="8" fill="none" stroke="#533023" strokeWidth="1.5" />
+              </svg>
+            </div>
+            <div className="absolute top-12 right-12 opacity-15">
+              <svg width="40" height="40" viewBox="0 0 50 50" fill="#533023">
+                <path d="M25,8 L20,20 L13,15 L18,27 L10,32 L18,37 L13,49 L20,44 L25,56 L30,44 L37,49 L25,37 L37,32 L25,27 L37,15 L30,20 Z" />
+                <circle cx="25" cy="25" r="18" fill="none" stroke="#533023" strokeWidth="2" />
+                <path d="M25,10 L25,40 M10,25 L40,25" stroke="#533023" strokeWidth="2" />
+                <circle cx="25" cy="25" r="5" fill="#533023" />
+              </svg>
+            </div>
+            <div className="absolute bottom-12 left-12 opacity-15">
+              <svg width="35" height="35" viewBox="0 0 40 40" fill="#533023">
+                <path d="M8,20 Q20,8 32,20 Q20,32 8,20" />
+                <circle cx="20" cy="20" r="4" fill="#533023" />
+                <path d="M12,12 L28,12 L28,28 L12,28 Z" fill="none" stroke="#533023" strokeWidth="1" />
+              </svg>
+            </div>
+            <div className="absolute bottom-12 right-12 opacity-15">
+              <svg width="35" height="35" viewBox="0 0 40 40" fill="#533023">
+                <path d="M20,8 L24,16 L32,12 L28,20 L36,24 L28,28 L32,36 L24,32 L20,40 L16,32 L8,36 L12,28 L4,24 L12,20 L8,12 L16,16 Z" />
+              </svg>
+            </div>
+
+            <div className="relative z-10 px-6 w-full h-full flex flex-col justify-start gap-3">
+              <div className="flex-1 flex flex-col justify-start gap-3">
+                <h3 className={`${cinzel.className} text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-2`} style={{ color: "#3D6B1F", lineHeight: "1.08", letterSpacing: "0.02em", textShadow: "0 2px 8px rgba(61,107,31,0.12)" }}>
+                  The Fire to Heal, Teach, and Build
+                </h3>
+                <p className="text-lg md:text-xl leading-relaxed font-semibold" style={{
+                  lineHeight: "1.5",
+                  color: "#5D4037",
+                  textShadow: "0 1px 2px rgba(255,255,255,0.5)",
+                  letterSpacing: "0.01em",
+                  marginTop: "0.5em",
+                  padding: "0.35em 0",
+                  borderLeft: "4px solid #DAA520",
+                  paddingLeft: "0.9em",
+                  background: "rgba(255,255,255,0.5)",
+                  fontSize: "clamp(1.1rem, 1.5vw, 1.35rem)",
+                }}>
+                  What if the man before you once escaped from San Quentin—then returned by choice two decades later to
+                  fight for his children's future?
+                </p>
+                <p className="text-lg md:text-xl leading-relaxed font-semibold" style={{
+                  lineHeight: "1.5",
+                  color: "#5D4037",
+                  textShadow: "0 1px 2px rgba(255,255,255,0.5)",
+                  letterSpacing: "0.01em",
+                  marginTop: "0.45em",
+                  padding: "0.35em 0",
+                  borderLeft: "4px solid #3D6B1F",
+                  paddingLeft: "0.9em",
+                  background: "rgba(255,255,255,0.5)",
+                  fontSize: "clamp(1.1rem, 1.5vw, 1.35rem)",
+                }}>
+                  What if he walked free after 26 years behind bars—not with bitterness, but with <span style={{ color: "#3D6B1F", fontWeight: "700" }}>the fire to heal, teach, and build?</span>
+                </p>
+
+                {/* Freelance Elder Section */}
+                <div className="text-center pt-8 pb-2">
+                  {/* Added decorative icon above Freelance Elder title */}
+                  <div className="flex items-center justify-center py-2 mb-2">
+                    <div className="w-1/4 h-0.5 bg-gradient-to-r from-transparent to-amber-600/40"></div>
+                    <div className="mx-4">
+                      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="16" stroke="#533023" strokeWidth="1" strokeOpacity="0.4" fill="none" />
+                        <circle cx="18" cy="18" r="12" stroke="#DAA520" strokeWidth="1" strokeOpacity="0.6" strokeDasharray="3 2" fill="none" />
+                        <path d="M10,18 Q18,10 26,18 Q18,26 10,18" stroke="#3d6b1f" strokeWidth="1" strokeOpacity="0.5" fill="none" />
+                      </svg>
+                    </div>
+                    <div className="w-1/4 h-0.5 bg-gradient-to-l from-transparent to-amber-600/40"></div>
+                  </div>
+
+                  <h3 className={`${cinzel.className} text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4`} style={{ color: "#357a2a", letterSpacing: "0.04em", fontWeight: 700 }}>
+                    Freelance Elder
+                  </h3>
+                  <p className={`${cormorantGaramond.className} text-xl md:text-2xl leading-relaxed font-extrabold text-center mb-6`} style={{ lineHeight: "1.7", color: "#3d2c1a", maxWidth: "540px", margin: "0 auto", fontWeight: "900" }}>
+                    An independent elder, walking freely with memory and fire—sharing wisdom across communities in the spirit of the gift economy, where relationship is the true wealth and every story passed is a seed for the next generation.
+                  </p>
+                  <div className="pt-2">
+                    <p className={`${cormorantGaramond.className} text-xl md:text-2xl leading-relaxed font-extrabold text-center italic`} style={{ color: "#4A2C20", display: "block", margin: "0 auto", fontWeight: "900" }}>
+                      That man is me.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className="border-l-4 pl-6 py-3 relative"
+                style={{
+                  borderColor: "#4A2C20",
+                  backgroundColor: "#F8F4E6",
+                  boxShadow: "inset 0 0 8px rgba(74,44,32,0.06)",
+                }}
+              >
+                <div className="absolute left-0 top-3 w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent"></div>
+                <p className="text-lg md:text-xl font-medium leading-relaxed" style={{ color: "#4A2C20", lineHeight: "1.6" }}>
+                  <span className="font-bold text-2xl md:text-3xl" style={{ color: "#3D6B1F" }}>
+                    Watani Stiner
+                  </span>{" "}
+                  —<br />
+                  Revolutionary elder, father, grandfather, great grandfather, mentor,
+                  <br />
+                  COINTELPRO survivor, freelance elder, and lifelong witness.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Description */}
+        <div
+          className="text-white p-8 md:p-12 relative"
+          style={{ background: "linear-gradient(135deg, #3d6b1f, #4a7c59)" }}
+        >
+          <div
+            className="absolute bottom-0 left-0 right-0 h-2 opacity-30"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255,215,0,0.3) 10px, rgba(255,215,0,0.3) 20px)",
+            }}
+          ></div>
+
+          <p className="text-lg md:text-xl leading-relaxed text-center max-w-4xl mx-auto relative z-10">
+            This is not a lecture. Not a performance. It's a circle of truth-telling, memory, and movement—offered to
+            young Black women and men <em style={{ color: "#FFD700" }}>ready</em> to sit in sacred space and carry the
+            fire forward.
+          </p>
+        </div>
+
+        {/* Story Section */}
+        <div className="p-8 md:p-12 relative" style={{ backgroundColor: "#F5F1E8" }}>
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage:
+                'url(\'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><g opacity="0.09"><path d="M60 20 Q70 40 60 60 Q50 80 60 100" stroke="%236B4226" stroke-width="2" fill="none"/><path d="M60 40 Q65 55 60 70" stroke="%236B4226" stroke-width="1" fill="none"/><path d="M60 60 Q62 70 60 80" stroke="%236B4226" stroke-width="0.7" fill="none"/></g></svg>\')',
+            }}
+          ></div>
+
+          <div
+            className="absolute top-0 left-0 right-0 h-1 opacity-30"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(61,107,31,0.3) 10px, rgba(61,107,31,0.3) 20px)",
+            }}
+          ></div>
+
+          <div className="max-w-4xl mx-auto space-y-8 relative z-10">
+            <h3 className={`${cinzel.className} text-2xl md:text-3xl font-bold text-center mb-6`} style={{ color: "var(--fire-heal-build)" }}>
+              The Journey of Eldership
+            </h3>
+
+            <div className="space-y-6" style={{ color: "#5D4037" }}>
+              <p className={`${cormorantGaramond.className} text-xl md:text-2xl leading-relaxed font-medium`} style={{ lineHeight: "1.8" }}>
+                When I escaped from San Quentin in 1974, I left behind more than concrete walls and iron bars. I carried with me the fire of revolution, the weight of injustice, and the unbroken dreams of African people. For twenty years in exile, I walked the path of cultural and political education, learning more each day about the struggles and the beauty of our people. At the same time, I was raising my children close to my heart—teaching them to know their roots, to take pride in who they are, and to reach always for the excellence that lives within them.
+              </p>
+
+              <p className={`${cormorantGaramond.className} text-xl md:text-2xl leading-relaxed font-medium`} style={{ lineHeight: "1.8" }}>
+                But the call to return—to face what I had left behind—grew stronger with each passing year. In 1993, I made the decision that would shape the rest of my journey: I returned voluntarily to the United States, knowing I would be imprisoned again.
+              </p>
+
+              <p className={`${cormorantGaramond.className} text-xl md:text-2xl leading-relaxed font-medium`} style={{ lineHeight: "1.8" }}>
+                Those twenty-six years behind bars became a crucible where bitterness could have consumed me. Instead, I chose to transform that fire into something that could heal, teach, and build. I discovered that true freedom isn't about where your body resides, but where your spirit stands.
+              </p>
+
+              {/* Decorative icon above quote */}
+              <div className="flex items-center justify-center py-4">
+                <div className="w-1/4 h-0.5 bg-gradient-to-r from-transparent to-amber-600/40"></div>
+                <div className="mx-4">
+                  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                    <circle cx="18" cy="18" r="16" stroke="#533023" strokeWidth="1" strokeOpacity="0.4" fill="none" />
+                    <circle cx="18" cy="18" r="12" stroke="#DAA520" strokeWidth="1" strokeOpacity="0.6" strokeDasharray="3 2" fill="none" />
+                    <path d="M10,18 Q18,10 26,18 Q18,26 10,18" stroke="#3d6b1f" strokeWidth="1" strokeOpacity="0.5" fill="none" />
+                  </svg>
+                </div>
+                <div className="w-1/4 h-0.5 bg-gradient-to-l from-transparent to-amber-600/40"></div>
+              </div>
+
+              <p className={`${cormorantGaramond.className} text-xl md:text-2xl italic leading-relaxed font-medium`} style={{ lineHeight: "1.8" }}>
+                Now, as I walk in freedom once more, I carry a different kind of fire—one that burns not to destroy, but to illuminate. This is the fire I seek to pass to our young people, who need not just our future promises, but our present guidance and the wisdom of our past struggles.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Location and Contact Info */}
+        <div className="p-8 md:p-12 relative" style={{ backgroundColor: "#F5F1E8" }}>
+          {/* Decorative wedding-style divider */}
+          <div className="w-full flex justify-center items-center mt-2 mb-10">
+            <div className="max-w-4xl w-full flex justify-center items-center">
+              <svg width="620" height="80" viewBox="0 0 620 80" className="text-green-900" style={{ filter: 'drop-shadow(0 2px 8px rgba(61,107,31,0.18))' }}>
+                <g>
+                  {/* Far left extra flourish */}
+                  <path d="M20,40 Q40,10 80,40 Q120,70 160,40" stroke="#236d2c" strokeWidth="4" fill="none" />
+                  <path d="M40,40 Q60,25 80,40 Q100,55 120,40" stroke="#3d6b1f" strokeWidth="2" fill="none" />
+                  <ellipse cx="80" cy="40" rx="8" ry="16" fill="#e6f4e6" stroke="#236d2c" strokeWidth="2" />
+                  <circle cx="80" cy="40" r="5" fill="#DAA520" stroke="#236d2c" strokeWidth="1.5" />
+
+                  {/* Left flourish (new, extended) */}
+                  <path d="M160,40 Q180,10 220,40 Q260,70 300,40" stroke="#236d2c" strokeWidth="4" fill="none" />
+                  <path d="M180,40 Q200,25 220,40 Q240,55 260,40" stroke="#3d6b1f" strokeWidth="2" fill="none" />
+                  <ellipse cx="220" cy="40" rx="8" ry="16" fill="#e6f4e6" stroke="#236d2c" strokeWidth="2" />
+                  <circle cx="220" cy="40" r="5" fill="#DAA520" stroke="#236d2c" strokeWidth="1.5" />
+
+                  {/* Center ornament */}
+                  <g transform="translate(310,40)">
+                    <ellipse cx="0" cy="0" rx="22" ry="32" fill="#e6f4e6" stroke="#236d2c" strokeWidth="3" />
+                    <ellipse cx="0" cy="0" rx="12" ry="18" fill="#f8f8e6" stroke="#DAA520" strokeWidth="2" />
+                    <circle cx="0" cy="0" r="7" fill="#DAA520" stroke="#236d2c" strokeWidth="1.5" />
+                    <path d="M-18,-10 Q0,18 18,-10" stroke="#3d6b1f" strokeWidth="2" fill="none" />
+                  </g>
+
+                  {/* Right flourish (new, extended) */}
+                  <path d="M460,40 Q440,10 400,40 Q360,70 320,40" stroke="#236d2c" strokeWidth="4" fill="none" />
+                  <path d="M440,40 Q420,25 400,40 Q380,55 360,40" stroke="#3d6b1f" strokeWidth="2" fill="none" />
+                  <ellipse cx="400" cy="40" rx="8" ry="16" fill="#e6f4e6" stroke="#236d2c" strokeWidth="2" />
+                  <circle cx="400" cy="40" r="5" fill="#DAA520" stroke="#236d2c" strokeWidth="1.5" />
+
+                  {/* Far right extra flourish */}
+                  <path d="M600,40 Q580,10 540,40 Q500,70 460,40" stroke="#236d2c" strokeWidth="4" fill="none" />
+                  <path d="M580,40 Q560,25 540,40 Q520,55 500,40" stroke="#3d6b1f" strokeWidth="2" fill="none" />
+                  <ellipse cx="540" cy="40" rx="8" ry="16" fill="#e6f4e6" stroke="#236d2c" strokeWidth="2" />
+                  <circle cx="540" cy="40" r="5" fill="#DAA520" stroke="#236d2c" strokeWidth="1.5" />
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage:
+                'url(\'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><g opacity="0.08" fill="%23533023"><circle cx="15" cy="15" r="2"/><circle cx="45" cy="15" r="2"/><circle cx="15" cy="45" r="2"/><circle cx="45" cy="45" r="2"/><path d="M30,10 L35,20 L25,20 Z"/><path d="M30,50 L25,40 L35,40 Z"/></g></svg>\')',
+            }}
+          ></div>
+
+          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 opacity-20">
+            <svg width="80" height="10" viewBox="0 0 80 10" fill="#533023">
+              <path d="M10,5 Q20,2 30,5 T50,5 T70,5" stroke="#533023" strokeWidth="1" fill="none" />
+              <circle cx="10" cy="5" r="1" />
+              <circle cx="40" cy="5" r="1" />
+              <circle cx="70" cy="5" r="1" />
+            </svg>
+          </div>
+
+          {/* Location, Scheduling, Contact section - Mobile optimized */}
+          <div className="max-w-5xl mx-auto relative z-10 pt-12">
+            <div className="flex flex-col lg:flex-row justify-center items-start gap-8 lg:gap-0 text-center">
+              {/* Location */}
+              <div className="flex flex-col items-center flex-1 w-full">
+                <div className="flex items-center justify-center space-x-3 mb-4">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="#4A2C20">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                  </svg>
+                  <h3 className="text-2xl md:text-3xl font-bold" style={{ color: "#4A2C20" }}>
+                    Location
+                  </h3>
+                </div>
+                <div className="space-y-2" style={{ color: "#5D4037" }}>
+                  <div>
+                    <p className="text-lg md:text-xl font-bold" style={{ color: "#4A2C20" }}>Canticle Farm</p>
+                    <p className="text-base md:text-lg italic" style={{ marginTop: '-0.1em' }}>Home of Sister Waters</p>
+                  </div>
+                  <p className="text-base md:text-lg">1969 Harrington Avenue, Oakland, CA</p>
+                </div>
+              </div>
+
+              {/* Horizontal Divider for mobile, Vertical for desktop */}
+              <div className="flex lg:hidden justify-center w-full">
+                <svg width="120" height="2" viewBox="0 0 120 2">
+                  <rect x="0" y="0" width="120" height="2" rx="1" fill="#533023" opacity="0.18" />
+                  <rect x="30" y="0" width="60" height="2" rx="1" fill="#DAA520" opacity="0.22" />
+                  <circle cx="60" cy="1" r="3" fill="#e6f4e6" stroke="#236d2c" strokeWidth="1" opacity="0.7" />
+                </svg>
+              </div>
+              <div className="hidden lg:flex flex-col justify-center mx-8">
+                <svg width="2" height="90" viewBox="0 0 2 90">
+                  <rect x="0" y="0" width="2" height="90" rx="1" fill="#533023" opacity="0.18" />
+                  <rect x="0" y="20" width="2" height="50" rx="1" fill="#DAA520" opacity="0.22" />
+                  <circle cx="1" cy="45" r="3" fill="#e6f4e6" stroke="#236d2c" strokeWidth="1" opacity="0.7" />
+                </svg>
+              </div>
+
+              {/* Contact */}
+              <div className="flex flex-col items-center flex-1 w-full">
+                <div className="flex items-center justify-center space-x-3 mb-4">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="#4A2C20">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                  </svg>
+                  <h3 className="text-2xl md:text-3xl font-bold" style={{ color: "#4A2C20" }}>
+                    Contact
+                  </h3>
+                </div>
+                <div className="flex flex-col gap-4" style={{ color: "#5D4037" }}>
+                  <div className="text-center">
+                    <p className="text-lg md:text-xl font-bold" style={{ color: "#4A2C20" }}>Watani Stiner</p>
+                    <p className="text-base md:text-lg">(415) 336-7605</p>
+                    <p className="text-base md:text-lg">watani.stiner@gmail.com</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg md:text-xl font-bold" style={{ color: "#4A2C20" }}>Canticle Farm</p>
+                    <p className="text-base md:text-lg">(510) 679-3097</p>
+                    <p className="text-base md:text-lg">canticlefarmers@gmail.com</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Horizontal Divider for mobile, Vertical for desktop */}
+              <div className="flex lg:hidden justify-center w-full">
+                <svg width="120" height="2" viewBox="0 0 120 2">
+                  <rect x="0" y="0" width="120" height="2" rx="1" fill="#533023" opacity="0.18" />
+                  <rect x="30" y="0" width="60" height="2" rx="1" fill="#DAA520" opacity="0.22" />
+                  <circle cx="60" cy="1" r="3" fill="#e6f4e6" stroke="#236d2c" strokeWidth="1" opacity="0.7" />
+                </svg>
+              </div>
+              <div className="hidden lg:flex flex-col justify-center mx-8">
+                <svg width="2" height="90" viewBox="0 0 2 90">
+                  <rect x="0" y="0" width="2" height="90" rx="1" fill="#533023" opacity="0.18" />
+                  <rect x="0" y="20" width="2" height="50" rx="1" fill="#DAA520" opacity="0.22" />
+                  <circle cx="1" cy="45" r="3" fill="#e6f4e6" stroke="#236d2c" strokeWidth="1" opacity="0.7" />
+                </svg>
+              </div>
+
+              {/* Scheduling */}
+              <div className="flex flex-col items-center flex-1 w-full">
+                <div className="flex items-center justify-center space-x-3 mb-4">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="#4A2C20">
+                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+                  </svg>
+                  <h3 className="text-2xl md:text-3xl font-bold" style={{ color: "#4A2C20" }}>
+                    Scheduling
+                  </h3>
+                </div>
+                <div className="text-center" style={{ color: "#5D4037" }}>
+                  <p className="font-bold text-lg md:text-xl mb-2" style={{ color: "#4A2C20" }}>By Appointment</p>
+                  <p className="text-base md:text-lg">Scheduled One-on-one</p>
+                  <p className="text-base md:text-lg">or with your group</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Elegant Divider */}
+          <div className="flex items-center justify-center my-8">
+            <div className="w-1/4 h-0.5 bg-gradient-to-r from-transparent to-amber-600/40"></div>
+            <div className="mx-4">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <circle cx="18" cy="18" r="16" stroke="#533023" strokeWidth="1" strokeOpacity="0.4" fill="none" />
+                <circle cx="18" cy="18" r="12" stroke="#DAA520" strokeWidth="1" strokeOpacity="0.6" strokeDasharray="3 2" fill="none" />
+                <path d="M10,18 Q18,10 26,18 Q18,26 10,18" stroke="#3d6b1f" strokeWidth="1" strokeOpacity="0.5" fill="none" />
+              </svg>
+            </div>
+            <div className="w-1/4 h-0.5 bg-gradient-to-l from-transparent to-amber-600/40"></div>
+          </div>
+
+          {/* Gift Economy Section - Mobile Optimized */}
+          <div className="mt-4 mb-4 text-center relative z-10">
+            {/* Corner Images - Responsive and Mobile Optimized */}
+            {/* Left Corner Image */}
+            <div className="hidden lg:block absolute top-0 left-0 opacity-80 z-50">
+              <img
+                src="https://pub-b36625a09e404435935ae0e838f9c35d.r2.dev/Head%2BDrum/2.png"
+                alt=""
+                className="w-auto h-auto max-w-[200px] max-h-[200px] object-contain rounded-lg"
+                style={{
+                  filter: "sepia(10%) contrast(1.0) brightness(1.0)",
+                  mixBlendMode: "normal"
+                }}
+              />
+            </div>
+            {/* Smaller images for tablet */}
+            <div className="hidden md:block lg:hidden absolute top-0 left-0 opacity-60 z-50">
+              <img
+                src="https://pub-b36625a09e404435935ae0e838f9c35d.r2.dev/Head%2BDrum/2.png"
+                alt=""
+                className="w-auto h-auto max-w-[100px] max-h-[100px] object-contain rounded-lg"
+                style={{
+                  filter: "sepia(10%) contrast(1.0) brightness(1.0)",
+                  mixBlendMode: "normal"
+                }}
+              />
+            </div>
+
+            {/* Right Corner Image */}
+            <div className="hidden lg:block absolute top-0 right-0 opacity-80 z-50">
+              <img
+                src="https://pub-b36625a09e404435935ae0e838f9c35d.r2.dev/Head%2BDrum/1.png"
+                alt=""
+                className="w-auto h-auto max-w-[200px] max-h-[200px] object-contain rounded-lg"
+                style={{
+                  filter: "sepia(10%) contrast(1.0) brightness(1.0)",
+                  mixBlendMode: "normal"
+                }}
+              />
+            </div>
+            {/* Smaller images for tablet */}
+            <div className="hidden md:block lg:hidden absolute top-0 right-0 opacity-60 z-50">
+              <img
+                src="https://pub-b36625a09e404435935ae0e838f9c35d.r2.dev/Head%2BDrum/1.png"
+                alt=""
+                className="w-auto h-auto max-w-[100px] max-h-[100px] object-contain rounded-lg"
+                style={{
+                  filter: "sepia(10%) contrast(1.0) brightness(1.0)",
+                  mixBlendMode: "normal"
+                }}
+              />
+            </div>
+
+            {/* Arc/Half Circle with Gift Economy title - Mobile Optimized */}
+            <div className="flex flex-col items-center justify-center mb-4 md:mb-6 relative z-10 px-4 md:px-0">
+              <h3 className={`${cinzel.className} text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-2 md:mb-4`} style={{
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "#3D6B1F",
+                fontWeight: "800",
+              }}>
+                Gift Economy
+              </h3>
+              <div className="hidden md:block">
+                <svg width="200" height="80" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M200 80C200 35.8172 155.228 0 100 0C44.7715 0 0 35.8172 0 80" stroke="#533023" strokeWidth="2" />
+                  <path d="M180 80C180 46.8629 144.183 20 100 20C55.8172 20 20 46.8629 20 80" stroke="#DAA520" strokeWidth="1.5" strokeDasharray="4 2" />
+                  <path d="M160 80C160 57.9086 133.137 40 100 40C66.8629 40 40 57.9086 40 80" stroke="#3d6b1f" strokeWidth="1.5" strokeOpacity="0.7" />
+                </svg>
+              </div>
+              {/* Mobile-friendly divider */}
+              <div className="block md:hidden">
+                <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M120 40C120 17.9086 93.137 0 60 0C26.8629 0 0 17.9086 0 40" stroke="#533023" strokeWidth="1.5" />
+                  <path d="M100 40C100 27.8497 82.0914 18 60 18C37.9086 18 20 27.8497 20 40" stroke="#DAA520" strokeWidth="1" strokeDasharray="3 2" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center px-4 md:px-0">
+              <div className="flex items-center justify-center space-x-2 md:space-x-3 mb-4 md:mb-6">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="#4A2C20" className="w-6 h-6 md:w-8 md:h-8">
+                  <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" />
+                </svg>
+                <h3 className={`${cinzel.className} text-xl md:text-2xl lg:text-3xl font-bold`} style={{
+                  color: "#4A2C20"
+                }}>
+                  Support
+                </h3>
+              </div>
+              <div className="space-y-4 md:space-y-5 w-full max-w-md" style={{ color: "#4A2C20" }}>
+                <p className={`${cormorantGaramond.className} text-xl md:text-2xl lg:text-3xl font-black italic text-center`} style={{
+                  fontSize: "1.5rem",
+                  lineHeight: "1.3",
+                  letterSpacing: "0.02em",
+                  marginBottom: "0.4em"
+                }}>
+                  <span className="font-black block md:inline" style={{ color: "#3D6B1F", fontSize: "1.2em" }}>Venmo:</span>{" "}
+                  <span className="block md:inline font-black" style={{ color: "#4A2C20", WebkitTextStroke: "0.5px #4A2C20" }}>@CanticleFarm</span>
+                </p>
+                <p className={`${cormorantGaramond.className} text-xl md:text-2xl lg:text-3xl font-black italic text-center`} style={{
+                  fontSize: "1.5rem",
+                  lineHeight: "1.3",
+                  letterSpacing: "0.02em"
+                }}>
+                  <span className="font-black block md:inline" style={{ color: "#3D6B1F", fontSize: "1.2em" }}>PayPal:</span>{" "}
+                  <span className="block md:inline break-all font-black" style={{ color: "#4A2C20", WebkitTextStroke: "0.5px #4A2C20" }}>canticlefarmers@gmail.com</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div
+          className="text-white p-8 md:p-12 text-center relative"
+          style={{ background: "linear-gradient(to right, #3d6b1f, #3d6b1f, #4a7c59)" }}
+        >
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-20">
+            <svg width="100" height="20" viewBox="0 0 100 20" fill="none">
+              <path d="M10,10 Q25,5 40,10 T70,10 T90,10" stroke="currentColor" strokeWidth="2" fill="none" />
+              <circle cx="10" cy="10" r="2" fill="currentColor" />
+              <circle cx="50" cy="10" r="2" fill="currentColor" />
+              <circle cx="90" cy="10" r="2" fill="currentColor" />
+            </svg>
+          </div>
+
+          <p className="text-xl md:text-2xl font-bold mb-4 leading-tight relative z-10">
+            Come hear what they tried to erase.
+            <br />
+            Come feel what still lives.
+          </p>
+          <p className="text-lg font-medium opacity-90 relative z-10">
+            May the fire never die. May the baton never drop.
+          </p>
+        </div>
+      </div>
+
+      {/* Global Save Button */}
+      <SaveButton />
+    </div>
+  )
+}
