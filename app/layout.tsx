@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description: 'A Sacred Invitation for Young Black Truth-Seekers. Join Watani Stiner for circles of truth-telling, memory, and movement.',
     images: [
       {
-        url: 'https://pub-b36625a09e404435935ae0e838f9c35d.r2.dev/Thumbnail.png',
+        url: 'https://pub-b36625a09e404435935ae0e838f9c35d.r2.dev/1.%20Thumbnail-PASSING-THE-FIRE.png',
         width: 1200,
         height: 630,
         alt: 'Passing the Fire - Watani Stiner',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Passing the Fire - Watani Stiner',
     description: 'A Sacred Invitation for Young Black Truth-Seekers. Join Watani Stiner for circles of truth-telling, memory, and movement.',
-    images: ['https://pub-b36625a09e404435935ae0e838f9c35d.r2.dev/Thumbnail.png'],
+    images: ['https://pub-b36625a09e404435935ae0e838f9c35d.r2.dev/1.%20Thumbnail-PASSING-THE-FIRE.png'],
   },
 }
 

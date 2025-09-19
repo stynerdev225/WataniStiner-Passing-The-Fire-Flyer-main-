@@ -1,10 +1,14 @@
 "use client";
 
+import React, { useEffect, useRef, useState } from 'react';
+
 import { Cinzel } from 'next/font/google';
 import { Cormorant_Garamond } from 'next/font/google';
 import { Dancing_Script } from 'next/font/google';
 import EditableText from '@/components/editors/EditableText';
 import SaveButton from '@/components/ui/SaveButton';
+import AudioPlayer from '@/components/ui/AudioPlayer';
+import HamburgerMenu from '@/components/ui/HamburgerMenu';
 
 // Initialize the fonts
 const cinzel = Cinzel({
@@ -27,8 +31,30 @@ const dancingScript = Dancing_Script({
 });
 
 export default function PassingTheFireFlyer() {
+  const [musicPlaying, setMusicPlaying] = useState(false);
+  const heroRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      if (e?.detail?.playing !== undefined) {
+        setMusicPlaying(!!e.detail.playing);
+      }
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('music-playing', handler as any);
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('music-playing', handler as any);
+      }
+    };
+  }, []);
   return (
     <div className="min-h-screen p-4 md:p-8 relative" style={{ backgroundColor: "#FAF6EA" }}>
+      {/* Global, persistent audio control (fixed) for mobile/tablet only */}
+      <div className="fixed bottom-4 md:bottom-6 right-3 z-50 lg:hidden">
+        <HamburgerMenu />
+      </div>
       <svg className="fixed inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0, minHeight: '100vh', height: '100%', width: '100%' }}>
         <defs>
           {/* Wavy treaty text effect */}
@@ -95,13 +121,35 @@ export default function PassingTheFireFlyer() {
         }}
       >
         <div
-          className="text-white p-8 md:p-12 relative overflow-hidden"
+          id="hero"
+          ref={heroRef}
+          className="text-white p-4 md:p-8 lg:p-12 relative overflow-hidden"
           style={{
             background: "linear-gradient(135deg, #1a4d14 0%, #2d5016 25%, #3d6b1f 50%, #4a7c59 75%, #5a8c69 100%)",
             boxShadow: "inset 0 -2px 4px rgba(0,0,0,0.1)",
-            minHeight: "600px",
+            minHeight: "320px",
           }}
         >
+          {/* Top-center flame that animates when music is playing */}
+          <div className="pointer-events-none absolute -top-3 left-1/2 -translate-x-1/2 z-50">
+            <svg
+              width="26"
+              height="34"
+              viewBox="0 0 26 34"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className={musicPlaying ? "animate-[flickerHero_1.4s_ease-in-out_infinite]" : "opacity-40"}
+            >
+              <path d="M13 0C15 4 20 7 20 12.5C20 16.5 17.5 19.6 13 21C8.5 19.6 6 16.5 6 12.5C6 9.2 8 6.8 10 5C10.8 4.3 11.5 3.6 13 0Z" fill="#FF7A00" />
+              <path d="M13 9C14.2 11.6 16.5 13.2 16.5 15.5C16.5 17.2 15.4 18.7 13 19.4C10.6 18.7 9.5 17.2 9.5 15.5C9.5 14 10.7 12.8 11.6 12C12 11.6 12.3 11.2 13 9Z" fill="#FFD36E" />
+            </svg>
+          </div>
+          {/* Desktop-only: anchor sound button within hero bottom-right inside rounded corner */}
+          <div className="hidden lg:block absolute bottom-4 right-4 z-50 pointer-events-auto">
+            <HamburgerMenu />
+          </div>
+          {/* Audio control is now rendered once globally (fixed), see top-level fixed container above. */}
+          {/* Mobile/Tablet: fixed while hero is in view (rendered below) */}
           <div
             className="absolute inset-0 flex items-center justify-center opacity-25"
             style={{ top: "0px", bottom: "0px", left: "0px", right: "0px" }}
@@ -109,13 +157,17 @@ export default function PassingTheFireFlyer() {
             <img
               src="https://pub-b36625a09e404435935ae0e838f9c35d.r2.dev/passingthefire-banner.png"
               alt="Elder passing torch to young person with historical civil rights background"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain object-center md:object-cover md:object-center"
               style={{
                 filter: "sepia(20%) contrast(1.2) brightness(1.3)",
-                objectPosition: "center center",
               }}
             />
+            {/* Music hamburger opens sound panel; no inline audio element here */}
           </div>
+
+          {/* Mobile-only gradient overlays to cover green corners and behind title/subtitle */}
+          <div className="md:hidden absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#596113]/80 to-transparent pointer-events-none"></div>
+          <div className="md:hidden absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#596113]/70 to-transparent pointer-events-none"></div>
 
           {/* Enhanced decorative elements */}
           <div className="absolute top-4 left-4 opacity-25">
@@ -152,10 +204,10 @@ export default function PassingTheFireFlyer() {
             }}
           ></div>
 
-          <div className="text-center space-y-12 relative z-10">
-            <div className="mb-8">
+          <div className="text-center space-y-6 md:space-y-8 lg:space-y-12 relative z-10">
+            <div className="mb-4 md:mb-6 lg:mb-8">
               {/* Title with dramatic 3D effect and golden glow - UPDATED SPACING */}
-              <div className="relative py-4" style={{ letterSpacing: "0.25em !important" }}>
+              <div className="relative py-2 md:py-3 lg:py-4" style={{ letterSpacing: "0.25em !important" }}>
                 <EditableText
                   contentKey="main-title"
                   defaultContent="PASSING THE FIRE"
@@ -185,7 +237,7 @@ export default function PassingTheFireFlyer() {
             </div>
 
             {/* Decorative star divider matching image */}
-            <div className="flex items-center justify-center space-x-4 mb-12">
+            <div className="flex items-center justify-center space-x-4 mb-6 md:mb-8 lg:mb-12">
               <div className="w-24 h-0.5 bg-gradient-to-r from-transparent to-amber-300"></div>
               <div className="relative">
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="#DAA520">
@@ -237,17 +289,17 @@ export default function PassingTheFireFlyer() {
         </div>
 
         {/* Main Content */}
-        <div className="flex flex-col lg:flex-row">
+        <div id="fire-build" className="relative flex flex-col lg:flex-row">
           {/* Left Side - Photo */}
-          <div className="relative lg:flex-[7] h-[1077px] lg:h-[1117px] flex items-center justify-center">
+          <div className="relative lg:flex-[7] h-auto lg:h-[1117px] flex items-stretch justify-start">
             <img
               src="https://pub-6a385ee83a6947c692a6956223d76abf.r2.dev/Daddy.png"
               alt="Watani Stiner in traditional African attire"
-              className="w-auto h-auto object-contain lg:object-cover max-w-full max-h-full"
+              className="block w-full h-auto object-cover lg:object-cover"
               style={{
                 objectPosition: "center center",
                 minHeight: "270px",
-                height: "100%"
+                height: "auto"
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
@@ -272,7 +324,7 @@ export default function PassingTheFireFlyer() {
             </div>
           </div>
 
-          <div className="p-2 md:p-4 space-y-4 relative lg:flex-[5] h-[1077px] lg:h-[1117px] overflow-hidden" style={{
+          <div className="p-2 md:p-4 space-y-3 md:space-y-4 relative lg:flex-[5] h-auto lg:h-[1117px] overflow-hidden" style={{
             backgroundColor: "#F5F1E5",
             boxShadow: "inset 0 0 20px rgba(42,80,22,0.05)"
           }}>
@@ -311,8 +363,8 @@ export default function PassingTheFireFlyer() {
               </svg>
             </div>
 
-            <div className="relative z-10 px-6 w-full h-full flex flex-col justify-start gap-3">
-              <div className="flex-1 flex flex-col justify-start gap-3">
+            <div className="relative z-10 px-6 w-full h-full flex flex-col justify-start gap-2 md:gap-2">
+              <div className="flex-1 flex flex-col justify-start gap-2 md:gap-2">
                 <h3 className={`${cinzel.className} text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-2`} style={{ color: "#3D6B1F", lineHeight: "1.08", letterSpacing: "0.02em", textShadow: "0 2px 8px rgba(61,107,31,0.12)" }}>
                   The Fire to Heal, Teach, and Build
                 </h3>
@@ -347,7 +399,7 @@ export default function PassingTheFireFlyer() {
                 </p>
 
                 {/* Freelance Elder Section */}
-                <div className="text-center pt-8 pb-2">
+                <div className="text-center pt-4 md:pt-6 lg:pt-8 pb-1 md:pb-2">
                   {/* Added decorative icon above Freelance Elder title */}
                   <div className="flex items-center justify-center py-2 mb-2">
                     <div className="w-1/4 h-0.5 bg-gradient-to-r from-transparent to-amber-600/40"></div>
@@ -361,13 +413,13 @@ export default function PassingTheFireFlyer() {
                     <div className="w-1/4 h-0.5 bg-gradient-to-l from-transparent to-amber-600/40"></div>
                   </div>
 
-                  <h3 className={`${cinzel.className} text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4`} style={{ color: "#357a2a", letterSpacing: "0.04em", fontWeight: 700 }}>
+                  <h3 className={`${cinzel.className} text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-3 md:mb-4`} style={{ color: "#357a2a", letterSpacing: "0.04em", fontWeight: 700 }}>
                     Freelance Elder
                   </h3>
-                  <p className={`${cormorantGaramond.className} text-xl md:text-2xl leading-relaxed font-extrabold text-center mb-6`} style={{ lineHeight: "1.7", color: "#3d2c1a", maxWidth: "540px", margin: "0 auto", fontWeight: "900" }}>
+                  <p className={`${cormorantGaramond.className} text-xl md:text-2xl leading-relaxed font-extrabold text-center mb-4 md:mb-6`} style={{ lineHeight: "1.7", color: "#3d2c1a", maxWidth: "540px", margin: "0 auto", fontWeight: "900" }}>
                     An independent elder, walking freely with memory and fire—sharing wisdom across communities in the spirit of the gift economy, where relationship is the true wealth and every story passed is a seed for the next generation.
                   </p>
-                  <div className="pt-2">
+                  <div className="pt-1 md:pt-2">
                     <p className={`${cormorantGaramond.className} text-xl md:text-2xl leading-relaxed font-extrabold text-center italic`} style={{ color: "#4A2C20", display: "block", margin: "0 auto", fontWeight: "900" }}>
                       That man is me.
                     </p>
@@ -376,7 +428,7 @@ export default function PassingTheFireFlyer() {
               </div>
 
               <div
-                className="border-l-4 pl-6 py-3 relative"
+                className="border-l-4 pl-6 py-2 md:py-3 relative mt-1 md:mt-0"
                 style={{
                   borderColor: "#4A2C20",
                   backgroundColor: "#F8F4E6",
@@ -400,6 +452,7 @@ export default function PassingTheFireFlyer() {
 
         {/* Description */}
         <div
+          id="description"
           className="text-white p-8 md:p-12 relative"
           style={{ background: "linear-gradient(135deg, #3d6b1f, #4a7c59)" }}
         >
@@ -419,7 +472,7 @@ export default function PassingTheFireFlyer() {
         </div>
 
         {/* Story Section */}
-        <div className="p-8 md:p-12 relative" style={{ backgroundColor: "#F5F1E8" }}>
+        <div id="story" className="p-8 md:p-12 relative" style={{ backgroundColor: "#F5F1E8" }}>
           <div
             className="absolute inset-0 opacity-20"
             style={{
@@ -645,7 +698,7 @@ export default function PassingTheFireFlyer() {
           </div>
 
           {/* Gift Economy Section - Mobile Optimized */}
-          <div className="mt-4 mb-4 text-center relative z-10">
+          <div id="gift-economy" className="mt-4 mb-4 text-center relative z-10">
             {/* Corner Images - Responsive and Mobile Optimized */}
             {/* Left Corner Image */}
             <div className="hidden lg:block absolute top-0 left-0 opacity-80 z-50">
@@ -723,7 +776,7 @@ export default function PassingTheFireFlyer() {
               </div>
             </div>
 
-            <div className="flex flex-col items-center px-4 md:px-0">
+            <div id="support" className="flex flex-col items-center px-4 md:px-0">
               <div className="flex items-center justify-center space-x-2 md:space-x-3 mb-4 md:mb-6">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="#4A2C20" className="w-6 h-6 md:w-8 md:h-8">
                   <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" />
@@ -781,6 +834,8 @@ export default function PassingTheFireFlyer() {
           </p>
         </div>
       </div>
+
+      {/* No background audio element; music opens from the hamburger */}
 
       {/* Global Save Button */}
       <SaveButton />
